@@ -31,6 +31,14 @@ public class ReportRepositoryImpl implements ReportRepository {
     }
 
     @Override
+    public List<Report> findByBuildingId(Long buildingId) {
+        return reportPersistenceRepository.findAllByBuildingIdOrderByPeriodYearDescPeriodMonthDesc(buildingId)
+                .stream()
+                .map(ReportPersistenceAssembler::toDomainFromPersistence)
+                .toList();
+    }
+
+    @Override
     public Report save(Report report) {
         boolean isNew = report.getId() == null;
         var savedEntity = reportPersistenceRepository.save(ReportPersistenceAssembler.toPersistenceFromDomain(report));
