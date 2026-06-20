@@ -4,6 +4,7 @@ import com.tankiq.reporting.application.commandservices.ReportCommandService;
 import com.tankiq.reporting.application.queryservices.ReportQueryService;
 import com.tankiq.reporting.domain.model.queries.GetAllReportsQuery;
 import com.tankiq.reporting.domain.model.queries.GetReportByIdQuery;
+import com.tankiq.reporting.domain.model.queries.GetReportsByBuildingIdQuery;
 import com.tankiq.reporting.interfaces.rest.resources.CreateReportResource;
 import com.tankiq.reporting.interfaces.rest.resources.ReportResource;
 import com.tankiq.reporting.interfaces.rest.transform.CreateReportCommandFromResourceAssembler;
@@ -19,15 +20,23 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/reports", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+})
 @Tag(name = "Reports", description = "Endpoints for managing reports")
 public class ReportsController {
     private final ReportCommandService reportCommandService;
@@ -56,8 +65,10 @@ public class ReportsController {
 
     @GetMapping
     @Operation(summary = "Get all reports")
-    public ResponseEntity<?> getAllReports() {
-        var result = reportQueryService.handle(new GetAllReportsQuery());
+    public ResponseEntity<?> getAllReports(@RequestParam(required = false) Long buildingId) {
+        var result = buildingId == null
+                ? reportQueryService.handle(new GetAllReportsQuery())
+                : reportQueryService.handle(new GetReportsByBuildingIdQuery(buildingId));
         return ResponseEntityAssembler.toResponseEntityFromResult(
                 result,
                 list -> list.stream().map(ReportResourceFromEntityAssembler::toResourceFromEntity).toList(),

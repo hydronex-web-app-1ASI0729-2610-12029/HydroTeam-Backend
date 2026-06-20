@@ -4,6 +4,7 @@ import com.tankiq.reporting.application.queryservices.ReportQueryService;
 import com.tankiq.reporting.domain.model.aggregates.Report;
 import com.tankiq.reporting.domain.model.queries.GetAllReportsQuery;
 import com.tankiq.reporting.domain.model.queries.GetReportByIdQuery;
+import com.tankiq.reporting.domain.model.queries.GetReportsByBuildingIdQuery;
 import com.tankiq.reporting.domain.repositories.ReportRepository;
 import com.tankiq.shared.application.result.ApplicationError;
 import com.tankiq.shared.application.result.Result;
@@ -29,5 +30,10 @@ public class ReportQueryServiceImpl implements ReportQueryService {
         return reportRepository.findById(query.reportId())
                 .<Result<Report, ApplicationError>>map(Result::success)
                 .orElseGet(() -> Result.failure(ApplicationError.validationError("Report", "Report with id '%s' was not found".formatted(query.reportId()))));
+    }
+
+    @Override
+    public Result<List<Report>, ApplicationError> handle(GetReportsByBuildingIdQuery query) {
+        return Result.success(reportRepository.findByBuildingId(query.buildingId()));
     }
 }
