@@ -13,7 +13,8 @@ public final class CreateUserBuildingCommandFromResourceAssembler {
                 resource.userId(),
                 resource.buildingId(),
                 resource.role(),
-                resource.apartmentNumber()
+                resource.apartmentNumber(),
+                resource.associatedAt()
         );
     }
 }
