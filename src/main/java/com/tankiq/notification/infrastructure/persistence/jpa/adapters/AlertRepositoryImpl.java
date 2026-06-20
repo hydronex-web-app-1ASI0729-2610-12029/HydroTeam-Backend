@@ -6,6 +6,7 @@ import com.tankiq.notification.infrastructure.persistence.jpa.assemblers.AlertPe
 import com.tankiq.notification.infrastructure.persistence.jpa.repositories.AlertPersistenceRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
+import com.tankiq.notification.domain.model.valueobjects.AlertStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,5 +42,10 @@ public class AlertRepositoryImpl implements AlertRepository {
             savedAlert.clearDomainEvents();
         }
         return savedAlert;
+    }
+
+    @Override
+    public List<Alert> findActiveByCisternId(Long cisternId) {
+        return alertPersistenceRepository.findByCisternIdAndStatusNot(cisternId, AlertStatus.RESOLVED).stream().map(AlertPersistenceAssembler::toDomainFromPersistence).toList();
     }
 }

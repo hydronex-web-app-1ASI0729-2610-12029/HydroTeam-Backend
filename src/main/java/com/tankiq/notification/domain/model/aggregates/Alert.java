@@ -2,19 +2,21 @@ package com.tankiq.notification.domain.model.aggregates;
 
 import com.tankiq.notification.domain.model.commands.CreateAlertCommand;
 import com.tankiq.notification.domain.model.events.AlertCreatedEvent;
+import com.tankiq.notification.domain.model.valueobjects.AlertStatus;
+import com.tankiq.notification.domain.model.valueobjects.AlertType;
 import com.tankiq.shared.domain.model.aggregates.AbstractDomainAggregateRoot;
 import java.time.Instant;
 
 public class Alert extends AbstractDomainAggregateRoot<Alert> {
     private Long id;
-    private String type;
+    private AlertType type;
     private String message;
-    private String status;
+    private AlertStatus status;
     private Instant triggeredAt;
     private Instant resolvedAt;
     private Long cisternId;
 
-    public Alert(Long id, String type, String message, String status, Instant triggeredAt, Instant resolvedAt, Long cisternId) {
+    public Alert(Long id, AlertType type, String message, AlertStatus status, Instant triggeredAt, Instant resolvedAt, Long cisternId) {
         this.id = id;
         this.type = type;
         this.message = message;
@@ -24,7 +26,7 @@ public class Alert extends AbstractDomainAggregateRoot<Alert> {
         this.cisternId = cisternId;
     }
 
-    public Alert(String type, String message, String status, Instant triggeredAt, Instant resolvedAt, Long cisternId) {
+    public Alert(AlertType type, String message, AlertStatus status, Instant triggeredAt, Instant resolvedAt, Long cisternId) {
         this(null, type, message, status, triggeredAt, resolvedAt, cisternId);
     }
 
@@ -40,7 +42,7 @@ public class Alert extends AbstractDomainAggregateRoot<Alert> {
         this.id = id;
     }
 
-    public String getType() {
+    public AlertType getType() {
         return type;
     }
 
@@ -48,7 +50,7 @@ public class Alert extends AbstractDomainAggregateRoot<Alert> {
         return message;
     }
 
-    public String getStatus() {
+    public AlertStatus getStatus() {
         return status;
     }
 
