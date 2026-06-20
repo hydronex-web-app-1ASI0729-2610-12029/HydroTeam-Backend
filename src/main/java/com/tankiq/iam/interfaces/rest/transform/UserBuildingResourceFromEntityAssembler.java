@@ -14,7 +14,8 @@ public final class UserBuildingResourceFromEntityAssembler {
                 userBuilding.getUserId(),
                 userBuilding.getBuildingId(),
                 userBuilding.getRole(),
-                userBuilding.getApartmentNumber()
+                userBuilding.getApartmentNumber(),
+                userBuilding.getAssociatedAt()
         );
     }
 }
