@@ -6,7 +6,7 @@ public record CreateUserBuildingCommand(
         Long userId,
         Long buildingId,
         String role,
-        String apartmentNumber
+        String apartmentNumber,
         LocalDateTime associatedAt
 ) {
 }
