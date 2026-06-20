@@ -22,6 +22,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping(value = "/api/v1/refills", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "http://127.0.0.1:4200"
+})
 @Tag(name = "Refills", description = "Endpoints for managing refills")
 public class RefillsController {
     private final RefillCommandService refillCommandService;
