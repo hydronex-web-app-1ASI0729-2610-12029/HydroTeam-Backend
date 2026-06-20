@@ -1,13 +1,15 @@
 package com.tankiq.notification.domain.model.events;
 
 import com.tankiq.notification.domain.model.aggregates.Alert;
+import com.tankiq.notification.domain.model.valueobjects.AlertStatus;
+import com.tankiq.notification.domain.model.valueobjects.AlertType;
 import java.time.Instant;
 
 public record AlertCreatedEvent(
         Long alertId,
-        String type,
+        AlertType type,
         String message,
-        String status,
+        AlertStatus status,
         Instant triggeredAt,
         Instant resolvedAt,
         Long cisternId

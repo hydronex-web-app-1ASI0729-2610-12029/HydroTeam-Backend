@@ -8,6 +8,7 @@ import com.tankiq.notification.interfaces.rest.resources.CreateAlertResource;
 import com.tankiq.notification.interfaces.rest.resources.AlertResource;
 import com.tankiq.notification.interfaces.rest.transform.CreateAlertCommandFromResourceAssembler;
 import com.tankiq.notification.interfaces.rest.transform.AlertResourceFromEntityAssembler;
+import com.tankiq.notification.domain.model.queries.GetActiveAlertsByCisternIdQuery;
 import com.tankiq.shared.interfaces.rest.transform.ResponseEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -72,6 +73,17 @@ public class AlertsController {
         return ResponseEntityAssembler.toResponseEntityFromResult(
                 result,
                 AlertResourceFromEntityAssembler::toResourceFromEntity,
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/cistern/{cisternId}/active")
+    @Operation(summary = "Get active alerts by cistern id")
+    public ResponseEntity<?> getActiveAlertsByCisternId(@PathVariable Long cisternId) {
+        var result = alertQueryService.handle(new GetActiveAlertsByCisternIdQuery(cisternId));
+        return ResponseEntityAssembler.toResponseEntityFromResult(
+                result,
+                list -> list.stream().map(AlertResourceFromEntityAssembler::toResourceFromEntity).toList(),
                 HttpStatus.OK
         );
     }

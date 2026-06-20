@@ -1,8 +1,12 @@
 package com.tankiq.notification.infrastructure.persistence.jpa.entities;
 
+import com.tankiq.notification.domain.model.valueobjects.AlertStatus;
+import com.tankiq.notification.domain.model.valueobjects.AlertType;
 import com.tankiq.shared.infrastructure.persistence.jpa.entities.AuditableAbstractPersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.Instant;
 
@@ -10,14 +14,16 @@ import java.time.Instant;
 @Table(name = "alerts")
 public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private AlertType type;
 
     @Column(name = "message")
     private String message;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private AlertStatus status;
 
     @Column(name = "triggered_at")
     private Instant triggeredAt;
@@ -28,7 +34,7 @@ public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
     @Column(name = "cistern_id")
     private Long cisternId;
 
-    public String getType() {
+    public AlertType getType() {
         return type;
     }
 
@@ -36,7 +42,7 @@ public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
         return message;
     }
 
-    public String getStatus() {
+    public AlertStatus getStatus() {
         return status;
     }
 
@@ -52,7 +58,7 @@ public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
         return cisternId;
     }
 
-    public void setType(String type) {
+    public void setType(AlertType type) {
         this.type = type;
     }
 
@@ -60,7 +66,7 @@ public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
         this.message = message;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AlertStatus status) {
         this.status = status;
     }
 
@@ -75,5 +81,4 @@ public class AlertPersistenceEntity extends AuditableAbstractPersistenceEntity {
     public void setCisternId(Long cisternId) {
         this.cisternId = cisternId;
     }
-
 }
