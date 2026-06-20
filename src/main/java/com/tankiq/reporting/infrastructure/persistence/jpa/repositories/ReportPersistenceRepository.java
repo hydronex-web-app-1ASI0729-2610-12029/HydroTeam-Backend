@@ -4,6 +4,9 @@ import com.tankiq.reporting.infrastructure.persistence.jpa.entities.ReportPersis
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReportPersistenceRepository extends JpaRepository<ReportPersistenceEntity, Long> {
+    List<ReportPersistenceEntity> findAllByBuildingIdOrderByPeriodYearDescPeriodMonthDesc(Long buildingId);
 }

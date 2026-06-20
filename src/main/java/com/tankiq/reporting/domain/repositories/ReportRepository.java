@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface ReportRepository {
     Optional<Report> findById(Long id);
     List<Report> findAll();
+    List<Report> findByBuildingId(Long buildingId);
     Report save(Report report);
 }

@@ -1,10 +1,13 @@
 package com.tankiq.notification.domain.model.commands;
 
+import com.tankiq.notification.domain.model.valueobjects.AlertStatus;
+import com.tankiq.notification.domain.model.valueobjects.AlertType;
 import java.time.Instant;
+
 public record CreateAlertCommand(
-        String type,
+        AlertType type,
         String message,
-        String status,
+        AlertStatus status,
         Instant triggeredAt,
         Instant resolvedAt,
         Long cisternId

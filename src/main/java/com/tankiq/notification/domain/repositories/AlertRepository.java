@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface AlertRepository {
     Optional<Alert> findById(Long id);
     List<Alert> findAll();
+    List<Alert> findActiveByCisternId(Long cisternId);
     Alert save(Alert alert);
 }

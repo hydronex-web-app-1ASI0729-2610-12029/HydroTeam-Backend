@@ -73,4 +73,24 @@ public class Refill extends AbstractDomainAggregateRoot<Refill> {
     public void onCreated() {
         registerDomainEvent(RefillCreatedEvent.from(this));
     }
+
+    public void update(
+            Instant refillDate,
+            Double liters,
+            Double costSoles,
+            String supplierName,
+            String invoiceNumber,
+            Long buildingId,
+            Long registeredByUserId
+    ) {
+        this.refillDate = refillDate;
+        this.liters = liters;
+        this.costSoles = costSoles;
+        this.supplierName = supplierName;
+        this.invoiceNumber = invoiceNumber;
+        this.buildingId = buildingId;
+        this.registeredByUserId = registeredByUserId;
+    }
+
+
 }

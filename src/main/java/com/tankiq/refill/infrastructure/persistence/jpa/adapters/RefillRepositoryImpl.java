@@ -42,4 +42,9 @@ public class RefillRepositoryImpl implements RefillRepository {
         }
         return savedRefill;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        refillPersistenceRepository.deleteById(id);
+    }
 }
