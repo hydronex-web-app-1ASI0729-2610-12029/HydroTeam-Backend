@@ -9,4 +9,5 @@ public interface RefillRepository {
     Optional<Refill> findById(Long id);
     List<Refill> findAll();
     Refill save(Refill refill);
+    void deleteById(Long id);
 }
