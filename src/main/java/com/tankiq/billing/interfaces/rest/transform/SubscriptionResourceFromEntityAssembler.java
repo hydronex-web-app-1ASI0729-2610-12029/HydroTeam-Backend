@@ -1,7 +1,7 @@
-package com.tankiq.subscription.interfaces.rest.transform;
+package com.tankiq.billing.interfaces.rest.transform;
 
-import com.tankiq.subscription.domain.model.aggregates.Subscription;
-import com.tankiq.subscription.interfaces.rest.resources.SubscriptionResource;
+import com.tankiq.billing.domain.model.aggregates.Subscription;
+import com.tankiq.billing.interfaces.rest.resources.SubscriptionResource;
 
 public final class SubscriptionResourceFromEntityAssembler {
     private SubscriptionResourceFromEntityAssembler() {
@@ -12,7 +12,7 @@ public final class SubscriptionResourceFromEntityAssembler {
                 subscription.getId(),
                 subscription.getStartDate(),
                 subscription.getEndDate(),
-                subscription.getStatus(),
+                subscription.getStatus().name(),
                 subscription.getBuildingId(),
                 subscription.getPlanId()
         );

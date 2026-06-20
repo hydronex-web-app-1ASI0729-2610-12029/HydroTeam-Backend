@@ -1,7 +1,7 @@
-package com.tankiq.subscription.interfaces.rest.transform;
+package com.tankiq.billing.interfaces.rest.transform;
 
-import com.tankiq.subscription.domain.model.commands.CreateSubscriptionCommand;
-import com.tankiq.subscription.interfaces.rest.resources.CreateSubscriptionResource;
+import com.tankiq.billing.domain.model.commands.CreateSubscriptionCommand;
+import com.tankiq.billing.interfaces.rest.resources.CreateSubscriptionResource;
 
 public final class CreateSubscriptionCommandFromResourceAssembler {
     private CreateSubscriptionCommandFromResourceAssembler() {
@@ -9,6 +9,7 @@ public final class CreateSubscriptionCommandFromResourceAssembler {
 
     public static CreateSubscriptionCommand toCommandFromResource(CreateSubscriptionResource resource) {
         return new CreateSubscriptionCommand(
+                null,
                 resource.startDate(),
                 resource.endDate(),
                 resource.status(),
