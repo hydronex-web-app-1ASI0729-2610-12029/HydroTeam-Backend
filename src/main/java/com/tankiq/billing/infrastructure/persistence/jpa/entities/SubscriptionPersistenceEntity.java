@@ -1,68 +1,48 @@
-package com.tankiq.subscription.infrastructure.persistence.jpa.entities;
+package com.tankiq.billing.infrastructure.persistence.jpa.entities;
 
+import com.tankiq.billing.domain.model.valueobjects.SubscriptionStatus;
 import com.tankiq.shared.infrastructure.persistence.jpa.entities.AuditableAbstractPersistenceEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
+/**
+ * Subscription entity
+ * <description>
+ *     This is the subscription entity to persistence in the database.
+ * </description>
+ * @author Retuerto Rodriguez, Jorge Manuel - Calin1407
+ */
+@Getter
+@Setter
 @Entity
 @Table(name = "subscriptions")
 public class SubscriptionPersistenceEntity extends AuditableAbstractPersistenceEntity {
-
-    @Column(name = "start_date")
+    @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SubscriptionStatus status;
 
-    @Column(name = "building_id")
+    @Column(nullable = false)
     private Long buildingId;
 
-    @Column(name = "plan_id")
+    @Column(nullable = false)
     private Long planId;
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+    public SubscriptionPersistenceEntity() {}
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Long getBuildingId() {
-        return buildingId;
-    }
-
-    public Long getPlanId() {
-        return planId;
-    }
-
-    public void setStartDate(LocalDate startDate) {
+    public SubscriptionPersistenceEntity(LocalDate startDate, LocalDate endDate, SubscriptionStatus status, Long buildingId, Long planId) {
         this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setBuildingId(Long buildingId) {
         this.buildingId = buildingId;
-    }
-
-    public void setPlanId(Long planId) {
         this.planId = planId;
     }
-
 }
