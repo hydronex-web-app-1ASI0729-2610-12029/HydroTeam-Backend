@@ -14,7 +14,8 @@ public final class UserBuildingPersistenceAssembler {
                 entity.getUserId(),
                 entity.getBuildingId(),
                 entity.getRole(),
-                entity.getApartmentNumber()
+                entity.getApartmentNumber(),
+                entity.getAssociatedAt()
         );
     }
 
@@ -25,6 +26,7 @@ public final class UserBuildingPersistenceAssembler {
         entity.setBuildingId(userBuilding.getBuildingId());
         entity.setRole(userBuilding.getRole());
         entity.setApartmentNumber(userBuilding.getApartmentNumber());
+        entity.setAssociatedAt(userBuilding.getAssociatedAt());
         return entity;
     }
 }
