@@ -2,6 +2,7 @@ package com.tankiq.refill.interfaces.rest;
 
 import com.tankiq.refill.application.commandservices.RefillCommandService;
 import com.tankiq.refill.application.queryservices.RefillQueryService;
+import com.tankiq.refill.domain.model.commands.DeleteRefillCommand;
 import com.tankiq.refill.domain.model.queries.GetAllRefillsQuery;
 import com.tankiq.refill.domain.model.queries.GetRefillByIdQuery;
 import com.tankiq.refill.interfaces.rest.resources.CreateRefillResource;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping(value = "/api/v1/refills", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,6 +75,38 @@ public class RefillsController {
                 result,
                 RefillResourceFromEntityAssembler::toResourceFromEntity,
                 HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/{refillId}")
+    @Operation(
+            summary = "Delete a refill",
+            description = "Deletes an existing refill identified by its unique identifier."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Refill deleted successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Refill not found"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid refill identifier"
+            )
+    })
+    public ResponseEntity<?> deleteRefill(@PathVariable Long refillId) {
+
+        var result = refillCommandService.handle(
+                new DeleteRefillCommand(refillId)
+        );
+
+        return ResponseEntityAssembler.toResponseEntityFromResult(
+                result,
+                ignored -> null,
+                HttpStatus.NO_CONTENT
         );
     }
 }
