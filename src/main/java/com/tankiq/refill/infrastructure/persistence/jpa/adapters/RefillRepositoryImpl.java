@@ -7,6 +7,7 @@ import com.tankiq.refill.infrastructure.persistence.jpa.repositories.RefillPersi
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,15 @@ public class RefillRepositoryImpl implements RefillRepository {
     @Override
     public List<Refill> findAll() {
         return refillPersistenceRepository.findAll().stream().map(RefillPersistenceAssembler::toDomainFromPersistence).toList();
+    }
+
+    @Override
+    public List<Refill> findByBuildingIdAndRefillDateBetween(Long buildingId, Instant startDate, Instant endDate) {
+        return refillPersistenceRepository
+                .findAllByBuildingIdAndRefillDateGreaterThanEqualAndRefillDateLessThan(buildingId, startDate, endDate)
+                .stream()
+                .map(RefillPersistenceAssembler::toDomainFromPersistence)
+                .toList();
     }
 
     @Override

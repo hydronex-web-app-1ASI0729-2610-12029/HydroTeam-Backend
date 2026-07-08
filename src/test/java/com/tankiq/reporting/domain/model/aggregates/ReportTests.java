@@ -12,22 +12,20 @@ class ReportTests {
 
     @Test
     void createsReportWithValidMonthlyMetrics() {
-        var command = new CreateReportCommand(6, 2026, 125.50, 8400.0, Instant.now(), 1L, 1L);
+        var command = new CreateReportCommand(6, 2026, 1L, 1L);
 
         assertDoesNotThrow(() -> new Report(command));
     }
 
     @Test
     void rejectsInvalidMonth() {
-        var command = new CreateReportCommand(13, 2026, 125.50, 8400.0, Instant.now(), 1L, 1L);
+        var command = new CreateReportCommand(13, 2026, 1L, 1L);
 
         assertThrows(IllegalArgumentException.class, () -> new Report(command));
     }
 
     @Test
     void rejectsNegativeTotals() {
-        var command = new CreateReportCommand(6, 2026, -1.0, 8400.0, Instant.now(), 1L, 1L);
-
-        assertThrows(IllegalArgumentException.class, () -> new Report(command));
+        assertThrows(IllegalArgumentException.class, () -> new Report(6, 2026, -1.0, 8400.0, Instant.now(), 1L, 1L));
     }
 }
