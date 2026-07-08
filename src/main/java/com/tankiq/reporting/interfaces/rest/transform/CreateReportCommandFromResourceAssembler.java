@@ -11,9 +11,6 @@ public final class CreateReportCommandFromResourceAssembler {
         return new CreateReportCommand(
                 resource.periodMonth(),
                 resource.periodYear(),
-                resource.totalCostSoles(),
-                resource.totalWaterLiters(),
-                resource.generatedAt(),
                 resource.buildingId(),
                 resource.generatedByUserId()
         );
