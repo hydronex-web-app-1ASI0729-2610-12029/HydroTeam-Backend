@@ -9,4 +9,5 @@ public interface BuildingRepository {
     Optional<Building> findById(Long id);
     List<Building> findAll();
     Building save(Building building);
+    void deleteById(Long id);
 }

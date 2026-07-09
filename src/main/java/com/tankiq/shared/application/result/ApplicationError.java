@@ -16,7 +16,7 @@ public record ApplicationError(
     public static ApplicationError validationError(String fieldOrConcept, String reason)
     {
         return new ApplicationError("VALIDATION_ERROR",
-                "Validation failed for %s: %s".formatted(fieldOrConcept),
+                "Validation failed for %s: %s".formatted(fieldOrConcept, reason),
                 reason);
     }
 
@@ -34,7 +34,7 @@ public record ApplicationError(
 
 
     public static ApplicationError unexpected(String context, String reason) {
-        return new ApplicationError("%UNEXPECTED_ERROR",
+        return new ApplicationError("UNEXPECTED_ERROR",
                 "Unexpected error in %s".formatted(context),
                 reason);
     }

@@ -32,6 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
+
+
+
         boolean isNew = user.getId() == null;
         var savedEntity = userPersistenceRepository.save(UserPersistenceAssembler.toPersistenceFromDomain(user));
         var savedUser = UserPersistenceAssembler.toDomainFromPersistence(savedEntity);
@@ -41,5 +44,14 @@ public class UserRepositoryImpl implements UserRepository {
             savedUser.clearDomainEvents();
         }
         return savedUser;
+    }
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userPersistenceRepository.findByEmail(email).map(UserPersistenceAssembler::toDomainFromPersistence);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userPersistenceRepository.existsByEmail(email);
     }
 }

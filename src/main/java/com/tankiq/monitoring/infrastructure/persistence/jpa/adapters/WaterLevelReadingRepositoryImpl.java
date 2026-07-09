@@ -47,4 +47,9 @@ public class WaterLevelReadingRepositoryImpl implements WaterLevelReadingReposit
         }
         return savedReading;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        waterLevelReadingPersistenceRepository.deleteById(id);
+    }
 }

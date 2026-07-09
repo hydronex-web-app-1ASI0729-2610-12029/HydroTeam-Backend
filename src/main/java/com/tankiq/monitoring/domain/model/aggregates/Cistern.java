@@ -27,28 +27,18 @@ public class Cistern extends AbstractDomainAggregateRoot<Cistern> {
         this(command.capacityLiters(), command.currentLevelPercent(), command.alertThresholdPercent(), command.buildingId());
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Double getCapacityLiters() { return capacityLiters; }
+    public Double getCurrentLevelPercent() { return currentLevelPercent; }
+    public Double getAlertThresholdPercent() { return alertThresholdPercent; }
+    public Long getBuildingId() { return buildingId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getCapacityLiters() {
-        return capacityLiters;
-    }
-
-    public Double getCurrentLevelPercent() {
-        return currentLevelPercent;
-    }
-
-    public Double getAlertThresholdPercent() {
-        return alertThresholdPercent;
-    }
-
-    public Long getBuildingId() {
-        return buildingId;
+    public void update(Double capacityLiters, Double currentLevelPercent, Double alertThresholdPercent, Long buildingId) {
+        this.capacityLiters = capacityLiters;
+        this.currentLevelPercent = currentLevelPercent;
+        this.alertThresholdPercent = alertThresholdPercent;
+        this.buildingId = buildingId;
     }
 
     public void onCreated() {
