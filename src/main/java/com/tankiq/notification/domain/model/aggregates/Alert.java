@@ -69,4 +69,12 @@ public class Alert extends AbstractDomainAggregateRoot<Alert> {
     public void onCreated() {
         registerDomainEvent(AlertCreatedEvent.from(this));
     }
+
+    public void setStatus(AlertStatus status) {
+        this.status = status;
+    }
+
+    public void setResolvedAt(Instant resolvedAt) {
+        this.resolvedAt = resolvedAt;
+    }
 }
