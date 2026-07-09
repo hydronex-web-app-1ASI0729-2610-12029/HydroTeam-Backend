@@ -10,4 +10,5 @@ public interface WaterLevelReadingRepository {
     List<WaterLevelReading> findAll();
     List<WaterLevelReading> findBySensorId(Long sensorId);
     WaterLevelReading save(WaterLevelReading reading);
+    void deleteById(Long id);
 }

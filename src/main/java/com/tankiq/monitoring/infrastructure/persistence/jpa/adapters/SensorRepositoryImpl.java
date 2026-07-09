@@ -47,4 +47,9 @@ public class SensorRepositoryImpl implements SensorRepository {
         }
         return savedSensor;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        sensorPersistenceRepository.deleteById(id);
+    }
 }

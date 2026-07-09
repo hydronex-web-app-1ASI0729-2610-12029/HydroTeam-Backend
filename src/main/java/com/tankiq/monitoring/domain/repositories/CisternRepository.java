@@ -9,4 +9,5 @@ public interface CisternRepository {
     Optional<Cistern> findById(Long id);
     List<Cistern> findAll();
     Cistern save(Cistern cistern);
+    void deleteById(Long id);
 }

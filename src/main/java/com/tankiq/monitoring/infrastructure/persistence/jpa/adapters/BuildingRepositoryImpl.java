@@ -42,4 +42,9 @@ public class BuildingRepositoryImpl implements BuildingRepository {
         }
         return savedBuilding;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        buildingPersistenceRepository.deleteById(id);
+    }
 }

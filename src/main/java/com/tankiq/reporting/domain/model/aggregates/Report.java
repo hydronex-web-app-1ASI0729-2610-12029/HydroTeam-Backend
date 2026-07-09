@@ -33,7 +33,7 @@ public class Report extends AbstractDomainAggregateRoot<Report> {
     }
 
     public Report(CreateReportCommand command) {
-        this(command.periodMonth(), command.periodYear(), command.totalCostSoles(), command.totalWaterLiters(), command.generatedAt(), command.buildingId(), command.generatedByUserId());
+        this(command.periodMonth(), command.periodYear(), 0.0, 0.0, Instant.now(), command.buildingId(), command.generatedByUserId());
     }
 
     public Long getId() {
