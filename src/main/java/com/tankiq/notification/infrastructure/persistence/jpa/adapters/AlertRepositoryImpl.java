@@ -48,4 +48,14 @@ public class AlertRepositoryImpl implements AlertRepository {
     public List<Alert> findActiveByCisternId(Long cisternId) {
         return alertPersistenceRepository.findByCisternIdAndStatusNot(cisternId, AlertStatus.RESOLVED).stream().map(AlertPersistenceAssembler::toDomainFromPersistence).toList();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return alertPersistenceRepository.existsById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        alertPersistenceRepository.deleteById(id);
+    }
 }
