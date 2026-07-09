@@ -31,6 +31,12 @@ public class Building extends AbstractDomainAggregateRoot<Building> {
     public String getAddress() { return address; }
     public String getDistrict() { return district; }
 
+    public void update(String name, String address, String district) {
+        this.name = name;
+        this.address = address;
+        this.district = district;
+    }
+
     public void onCreated() {
         registerDomainEvent(BuildingCreatedEvent.from(this));
     }

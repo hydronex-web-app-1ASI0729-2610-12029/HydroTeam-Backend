@@ -36,6 +36,13 @@ public class WaterLevelReading extends AbstractDomainAggregateRoot<WaterLevelRea
     public Date getRecordedAt() { return recordedAt; }
     public Long getSensorId() { return sensorId; }
 
+    public void update(Double levelPercent, Double volumeLiters, Date recordedAt, Long sensorId) {
+        this.levelPercent = levelPercent;
+        this.volumeLiters = volumeLiters;
+        this.recordedAt = recordedAt;
+        this.sensorId = sensorId;
+    }
+
     public void onCreated() {
         registerDomainEvent(WaterLevelReadingCreatedEvent.from(this));
     }

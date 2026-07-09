@@ -10,4 +10,5 @@ public interface SensorRepository {
     List<Sensor> findAll();
     List<Sensor> findByCisternId(Long cisternId);
     Sensor save(Sensor sensor);
+    void deleteById(Long id);
 }

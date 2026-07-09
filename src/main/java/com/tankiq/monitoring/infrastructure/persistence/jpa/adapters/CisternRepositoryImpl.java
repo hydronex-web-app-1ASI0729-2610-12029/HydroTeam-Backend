@@ -42,4 +42,9 @@ public class CisternRepositoryImpl implements CisternRepository {
         }
         return savedCistern;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        cisternPersistenceRepository.deleteById(id);
+    }
 }

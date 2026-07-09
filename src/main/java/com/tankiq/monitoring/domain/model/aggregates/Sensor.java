@@ -41,6 +41,14 @@ public class Sensor extends AbstractDomainAggregateRoot<Sensor> {
     public Date getLastSyncAt() { return lastSyncAt; }
     public Long getCisternId() { return cisternId; }
 
+    public void update(String hardwareId, SensorType type, SensorStatus status, Date lastSyncAt, Long cisternId) {
+        this.hardwareId = hardwareId;
+        this.type = type;
+        this.status = status;
+        this.lastSyncAt = lastSyncAt;
+        this.cisternId = cisternId;
+    }
+
     public void onCreated() {
         registerDomainEvent(SensorCreatedEvent.from(this));
     }
