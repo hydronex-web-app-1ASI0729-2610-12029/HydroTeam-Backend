@@ -9,5 +9,7 @@ public interface AlertRepository {
     Optional<Alert> findById(Long id);
     List<Alert> findAll();
     List<Alert> findActiveByCisternId(Long cisternId);
+    boolean existsById(Long id);
+    void deleteById(Long id);
     Alert save(Alert alert);
 }
