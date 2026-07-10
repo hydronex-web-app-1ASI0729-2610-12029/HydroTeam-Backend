@@ -8,6 +8,6 @@ public final class SignUpCommandFromResourceAssembler {
     }
 
     public static SignUpCommand toCommandFromResource(SignUpResource resource) {
-        return new SignUpCommand(resource.name(), resource.email(), resource.password(), resource.phoneNumber());
+        return new SignUpCommand(resource.name(), resource.email(), resource.password(), resource.phoneNumber(), resource.buildingId(), resource.role(), resource.apartmentNumber());
     }
 }

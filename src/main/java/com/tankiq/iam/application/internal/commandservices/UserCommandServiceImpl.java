@@ -2,27 +2,36 @@ package com.tankiq.iam.application.internal.commandservices;
 
 import com.tankiq.iam.application.commandservices.UserCommandService;
 import com.tankiq.iam.application.internal.outboundservices.hashing.HashingService;
+import com.tankiq.iam.application.internal.outboundservices.security.PasswordBreachCheckService;
 import com.tankiq.iam.application.internal.outboundservices.tokens.TokenService;
 import com.tankiq.iam.domain.model.aggregates.User;
+import com.tankiq.iam.domain.model.aggregates.UserBuilding;
 import com.tankiq.iam.domain.model.commands.CreateUserCommand;
 import com.tankiq.iam.domain.model.commands.SignInCommand;
 import com.tankiq.iam.domain.model.commands.SignUpCommand;
+import com.tankiq.iam.domain.repositories.UserBuildingRepository;
 import com.tankiq.iam.domain.repositories.UserRepository;
 import com.tankiq.shared.application.result.ApplicationError;
 import com.tankiq.shared.application.result.Result;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
+    private final UserBuildingRepository userBuildingRepository;
     private final HashingService hashingService;
     private final TokenService tokenService;
+    private final PasswordBreachCheckService passwordBreachCheckService;
 
-    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService) {
+    public UserCommandServiceImpl(UserRepository userRepository, UserBuildingRepository userBuildingRepository, HashingService hashingService, TokenService tokenService, PasswordBreachCheckService passwordBreachCheckService) {
         this.userRepository = userRepository;
+        this.userBuildingRepository = userBuildingRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
+        this.passwordBreachCheckService = passwordBreachCheckService;
     }
 
     @Override
@@ -57,9 +66,26 @@ public class UserCommandServiceImpl implements UserCommandService {
         if (userRepository.existsByEmail(command.email())) {
             return Result.failure(ApplicationError.conflict("User", "Email already registered"));
         }
+
+        if (passwordBreachCheckService.isPasswordBreached(command.password())) {
+            return Result.failure(ApplicationError.validationError("password", "This password has appeared in a known data breach. Please choose a different password."));
+        }
+
         var hashedPassword = hashingService.encode(command.password());
         var user = new User(command.name(), command.email(), hashedPassword, command.phoneNumber());
         var savedUser = userRepository.save(user);
+
+        if (command.buildingId() != null) {
+            var userBuilding = new UserBuilding(
+                    savedUser.getId(),
+                    command.buildingId(),
+                    command.role() != null ? command.role() : "RESIDENT",
+                    command.apartmentNumber(),
+                    LocalDateTime.now()
+            );
+            userBuildingRepository.save(userBuilding);
+        }
+
         return Result.success(savedUser);
     }
 }
