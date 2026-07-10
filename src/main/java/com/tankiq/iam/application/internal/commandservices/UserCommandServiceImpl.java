@@ -4,23 +4,29 @@ import com.tankiq.iam.application.commandservices.UserCommandService;
 import com.tankiq.iam.application.internal.outboundservices.hashing.HashingService;
 import com.tankiq.iam.application.internal.outboundservices.tokens.TokenService;
 import com.tankiq.iam.domain.model.aggregates.User;
+import com.tankiq.iam.domain.model.aggregates.UserBuilding;
 import com.tankiq.iam.domain.model.commands.CreateUserCommand;
 import com.tankiq.iam.domain.model.commands.SignInCommand;
 import com.tankiq.iam.domain.model.commands.SignUpCommand;
+import com.tankiq.iam.domain.repositories.UserBuildingRepository;
 import com.tankiq.iam.domain.repositories.UserRepository;
 import com.tankiq.shared.application.result.ApplicationError;
 import com.tankiq.shared.application.result.Result;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
+    private final UserBuildingRepository userBuildingRepository;
     private final HashingService hashingService;
     private final TokenService tokenService;
 
-    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService) {
+    public UserCommandServiceImpl(UserRepository userRepository, UserBuildingRepository userBuildingRepository, HashingService hashingService, TokenService tokenService) {
         this.userRepository = userRepository;
+        this.userBuildingRepository = userBuildingRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
     }
@@ -60,6 +66,18 @@ public class UserCommandServiceImpl implements UserCommandService {
         var hashedPassword = hashingService.encode(command.password());
         var user = new User(command.name(), command.email(), hashedPassword, command.phoneNumber());
         var savedUser = userRepository.save(user);
+
+        if (command.buildingId() != null) {
+            var userBuilding = new UserBuilding(
+                    savedUser.getId(),
+                    command.buildingId(),
+                    command.role() != null ? command.role() : "RESIDENT",
+                    command.apartmentNumber(),
+                    LocalDateTime.now()
+            );
+            userBuildingRepository.save(userBuilding);
+        }
+
         return Result.success(savedUser);
     }
 }
