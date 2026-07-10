@@ -40,7 +40,8 @@ public class OpenApiConfiguration {
         openApi.servers(List.of(
                 new Server().url("http://localhost:8080").description("Local Development Environment"),
                 new Server().url("https://staging-api.tankiq.com").description("Staging Environment"),
-                new Server().url("https://api.tankiq.com").description("Production Environment")
+                new Server().url("https://api.tankiq.com").description("Production Environment"),
+                new Server().url("https://hydroteam-backend.onrender.com").description("HydroTeam Backend Environment") 
         ));
 
         openApi.components(new io.swagger.v3.oas.models.Components()
